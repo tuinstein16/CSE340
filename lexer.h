@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Rida Bazzi, 2019
+ * Copyright (C) Rida Bazzi, 2017
  *
  * Do not share this file with anyone
  */
@@ -11,13 +11,9 @@
 
 #include "inputbuf.h"
 
-// ------- token types -------------------
+// Lexer modified for FIRST & FOLLOW project
 
-typedef enum { END_OF_FILE = 0,
-    MAIN, PROC,
-    ENDPROC, INPUT, OUTPUT , DO , EQUAL, NUM, ID, 
-    SEMICOLON, PLUS , MINUS, MULT, DIV, ERROR
-    } TokenType;
+typedef enum { END_OF_FILE = 0, ARROW, STAR, HASH, ID, ERROR } TokenType;
 
 class Token {
   public:
@@ -36,16 +32,14 @@ class LexicalAnalyzer {
 
   private:
     std::vector<Token> tokenList;
+    Token GetTokenMain();
     int line_no;
     int index;
     Token tmp;
     InputBuffer input;
 
-    Token GetTokenMain();
     bool SkipSpace();
-    int FindKeywordIndex(std::string);
-    Token ScanNumber();
-    Token ScanIdOrKeyword();
+    Token ScanId();
 };
 
 #endif  //__LEXER__H__
