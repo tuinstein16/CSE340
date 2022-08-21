@@ -1,0 +1,36 @@
+a, b, c, d ;
+{
+	input a;
+	SWITCH a {
+		CASE 1:{
+			a = 1;
+			a = 111;
+		}
+		CASE 2:{
+			a = 1;
+			a = 222;
+		}
+		CASE 3:{
+			a = 1;
+			a = 333;
+		}
+		CASE 4:{
+			a = 1;
+			a = 444;
+		}
+		CASE 5:{
+			a = 1;
+			a = 555;
+		}
+		DEFAULT:{
+			a = 888;
+		}
+	}
+	output a;
+	FOR (a = 0; a < 10; a = a+1;){
+		output a;
+	}
+	output a;
+	input c;
+}
+4 2 55

@@ -1,0 +1,24 @@
+a, b, c, d;
+{
+	input a;
+	SWITCH a {
+		CASE 1:{
+			a = 1;
+			a = 2;
+		}
+		CASE 2:{
+			a = 2;
+		}
+		DEFAULT:{
+			input b;
+			a = 99;
+			a = 999;
+			a = 108;
+		}
+	}
+	output a;
+	input c;
+
+}
+
+97 2 55

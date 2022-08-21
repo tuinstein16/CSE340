@@ -1,0 +1,64 @@
+InstructionNode* parse_case_list(Token t0){
+    InstructionNode *st = new InstructionNode;
+    st->type = CJMP;
+    st->cjmp_inst.condition_op = CONDITION_NOTEQUAL;
+        if (t0.token_type == NUM)
+        {
+            mem[next_available] = stoi(t0.lexeme);
+            next_available++;
+            st->cjmp_inst.operand1_index = next_available - 1;
+        }
+        else if (t0.token_type == ID)
+        {
+            //it is in the mem table
+            if (location.find(t0.lexeme) != location.end())
+            {
+                st->cjmp_inst.operand1_index = location[t0.lexeme];
+            }
+            else
+            {
+                location.insert(pair<string, int>(t0.lexeme, next_available++));
+                st->cjmp_inst.operand1_index = location[t0.lexeme];
+                mem[next_available-1] = 0;
+            }
+        }
+        
+    cases* case1 = parse_case();
+    mem[next_available] = case1->case_num;
+    next_available++;
+    st->cjmp_inst.operand2_index = next_available - 1;
+
+    InstructionNode *st1 = case1->case_body;
+    st->cjmp_inst.target = case1->case_body;
+
+
+    Token t = lexer.peek(1);
+    if (t.token_type == CASE){
+        
+        InstructionNode *st2 = parse_case_list(t0);
+        st->next = st2;
+        /*
+        InstructionNode* current = st;
+        while (current->next != nullptr){
+            current = current->next;
+        }
+        InstructionNode* noop1 = new InstructionNode; 
+        noop1->type = NOOP;
+        noop1->next = nullptr;
+        current->next = noop1;*/
+        return st;
+    }
+
+    InstructionNode* current = st->cjmp_inst.target;
+    while (current->next != nullptr){
+        current = current->next;
+    }
+    InstructionNode* noop1 = new InstructionNode; 
+    noop1->type = NOOP;
+    noop1->next = nullptr;
+    current->next = noop1;
+    st->next = noop1;
+
+    return st;
+
+}

@@ -1,0 +1,38 @@
+while(case_list.size()>0){
+        InstructionNode *noop = new InstructionNode;
+        noop->type = NOOP;
+        noop->next = nullptr;
+        
+        //current = nullptr;
+        InstructionNode *newNode = new InstructionNode;
+        newNode->type = CJMP;
+        newNode->cjmp_inst.condition_op = CONDITION_NOTEQUAL;
+        newNode->cjmp_inst.operand1_index = t0_index;
+        cases* new_case = case_list[0];
+        case_list.erase(case_list.begin()+0);
+
+        mem[next_available] = new_case->case_num;
+        next_available++;
+        newNode->cjmp_inst.operand2_index = next_available - 1;
+        newNode->cjmp_inst.target = new_case->case_body;
+        InstructionNode *curr1 = new_case->case_body;
+        while(curr1->next != nullptr){
+            curr1 = curr1->next;
+        }
+        curr1->next = noop;
+        if (case_list.size() == 0){
+            newNode->next = noop;
+        }
+
+        if (previous == nullptr){
+            previous = newNode;
+        }
+        else if (previous != nullptr){
+            previous->next = newNode;
+            previous = previous->next;
+        }
+
+        //previous = newNode;
+        //current = newNode;
+ 
+    }
